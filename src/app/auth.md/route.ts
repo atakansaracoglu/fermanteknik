@@ -1,7 +1,7 @@
 export function GET() {
-  const body = `# Auth.md
+  const body = `# Ferman Teknik auth.md
 
-> This file follows the [Auth.md](https://github.com/workos/auth.md) specification.
+> This file follows the [auth.md](https://github.com/workos/auth.md) specification.
 
 ## Overview
 

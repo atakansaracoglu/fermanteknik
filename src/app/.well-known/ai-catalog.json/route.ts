@@ -14,7 +14,7 @@ export function GET() {
     },
     entries: [
       {
-        id: `urn:air:${DOMAIN}:services:info`,
+        identifier: `urn:air:${DOMAIN}:services:info`,
         displayName: "Ferman Teknik Hizmetler",
         description: "Klima ve beyaz eşya servis hizmetleri bilgisi",
         type: "application/json",
@@ -27,7 +27,7 @@ export function GET() {
         ],
       },
       {
-        id: `urn:air:${DOMAIN}:mcp:server`,
+        identifier: `urn:air:${DOMAIN}:mcp:server`,
         displayName: "Ferman Teknik MCP Server Card",
         description: "MCP server discovery metadata",
         type: "application/json",
@@ -38,7 +38,7 @@ export function GET() {
         ],
       },
       {
-        id: `urn:air:${DOMAIN}:api:catalog`,
+        identifier: `urn:air:${DOMAIN}:api:catalog`,
         displayName: "Ferman Teknik API Catalog",
         description: "RFC 9727 API catalog",
         type: "application/linkset+json",
