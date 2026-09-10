@@ -1,9 +1,13 @@
-export function GET() {
+import { NextRequest } from "next/server";
+
+export function GET(req: NextRequest) {
+  const origin = `https://${req.headers.get("host") || "fermanteknik.com"}`;
+
   return Response.json(
     {
-      issuer: "https://fermanteknik.com",
-      authorization_endpoint: "https://fermanteknik.com",
-      token_endpoint: "https://fermanteknik.com",
+      issuer: origin,
+      authorization_endpoint: origin,
+      token_endpoint: origin,
       response_types_supported: [],
       grant_types_supported: [],
       scopes_supported: [],

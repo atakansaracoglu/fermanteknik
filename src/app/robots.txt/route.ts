@@ -1,6 +1,8 @@
-const DOMAIN = "https://fermanteknik.com";
+import { NextRequest } from "next/server";
 
-export function GET() {
+export function GET(req: NextRequest) {
+  const origin = `https://${req.headers.get("host") || "fermanteknik.com"}`;
+
   const body = `# Ferman Teknik - Antalya Klima & Beyaz Eşya Servisi
 User-agent: *
 Allow: /
@@ -32,7 +34,7 @@ Disallow: /
 User-agent: PetalBot
 Disallow: /
 
-Sitemap: ${DOMAIN}/sitemap.xml
+Sitemap: ${origin}/sitemap.xml
 
 # Content Signals (draft-romm-aipref-contentsignals)
 Content-Signal: ai-train=yes, search=yes, ai-input=yes

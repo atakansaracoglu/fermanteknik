@@ -1,11 +1,15 @@
-export function GET() {
+import { NextRequest } from "next/server";
+
+export function GET(req: NextRequest) {
+  const origin = `https://${req.headers.get("host") || "fermanteknik.com"}`;
+
   return Response.json(
     {
-      resource: "https://fermanteknik.com",
-      authorization_servers: ["https://fermanteknik.com/.well-known/oauth-authorization-server"],
+      resource: origin,
+      authorization_servers: [`${origin}/.well-known/oauth-authorization-server`],
       scopes_supported: [],
       bearer_methods_supported: ["header"],
-      resource_documentation: "https://fermanteknik.com/auth.md",
+      resource_documentation: `${origin}/auth.md`,
       resource_name: "Ferman Teknik",
     },
     {

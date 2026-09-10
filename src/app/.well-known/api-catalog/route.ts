@@ -1,19 +1,27 @@
-export function GET() {
-  const catalog = {
-    linkset: [
-      {
-        anchor: "https://fermanteknik.com/",
-        "service-desc": [
-          {
-            href: "https://fermanteknik.com/.well-known/ai-catalog.json",
-            type: "application/json",
-          },
-        ],
-      },
-    ],
-  };
+import { NextRequest } from "next/server";
 
-  return Response.json(catalog, {
-    headers: { "Content-Type": "application/linkset+json" },
-  });
+export function GET(req: NextRequest) {
+  const origin = `https://${req.headers.get("host") || "fermanteknik.com"}`;
+
+  return Response.json(
+    {
+      linkset: [
+        {
+          anchor: `${origin}/`,
+          "service-desc": [
+            {
+              href: `${origin}/.well-known/ai-catalog.json`,
+              type: "application/json",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      headers: {
+        "Content-Type": "application/linkset+json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    },
+  );
 }

@@ -1,4 +1,8 @@
-export function GET() {
+import { NextRequest } from "next/server";
+
+export function GET(req: NextRequest) {
+  const origin = `https://${req.headers.get("host") || "fermanteknik.com"}`;
+
   const body = `# Ferman Teknik auth.md
 
 > This file follows the [auth.md](https://github.com/workos/auth.md) specification.
@@ -17,8 +21,8 @@ export function GET() {
 
 This site does not use OAuth or OIDC. All endpoints are publicly accessible.
 
-- **OAuth Protected Resource Metadata**: \`/.well-known/oauth-protected-resource\`
-- **OAuth Authorization Server Metadata**: \`/.well-known/oauth-authorization-server\`
+- **OAuth Protected Resource Metadata**: \`${origin}/.well-known/oauth-protected-resource\`
+- **OAuth Authorization Server Metadata**: \`${origin}/.well-known/oauth-authorization-server\`
 
 ## Endpoints
 
