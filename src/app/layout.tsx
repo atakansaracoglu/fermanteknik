@@ -69,6 +69,41 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <script
+          type="application/webmcp+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              name: "Ferman Teknik",
+              description: "Klima montaji, beyaz esya tamiri - Antalya",
+              tools: [
+                {
+                  name: "getContactInfo",
+                  description: "Get phone numbers and address",
+                  parameters: {},
+                  returns: {
+                    phone: ["+905379288269", "+905070721617"],
+                    address: "Yildiz Mah. 228 Sok. 2/A Muratpasa/Antalya",
+                  },
+                },
+                {
+                  name: "getServices",
+                  description: "List available repair and installation services",
+                  parameters: {},
+                  returns: {
+                    services: [
+                      "Klima Montaji",
+                      "Klima Bakimi",
+                      "Beyaz Esya Tamiri",
+                      "Camasir Makinesi Tamiri",
+                      "Bulasik Makinesi Tamiri",
+                      "Buzdolabi Tamiri",
+                    ],
+                  },
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col">
         {children}

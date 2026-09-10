@@ -105,14 +105,13 @@ const ADDRESS = "Yıldız Mah. 228 Sok. 2/A Muratpaşa/Antalya";
 function Header() {
   const [open, setOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [activeLang, setActiveLang] = useState("tr");
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
+    if (open) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
 
   const activeFlag = LANGUAGES.find((l) => l.code === activeLang)?.flag ?? "🇹🇷";
 
@@ -138,10 +137,14 @@ function Header() {
     { href: "#iletisim", label: "İletişim" },
   ];
 
+  const PhoneIcon = () => (
+    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+    </svg>
+  );
+
   return (
-    <header
-      className="fixed top-0 inset-x-0 z-50 bg-black shadow-lg"
-    >
+    <header className="fixed top-0 inset-x-0 z-50 bg-black shadow-lg">
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 h-16 sm:h-20">
         <a href="#" className="flex items-center shrink-0">
           <Image
@@ -205,49 +208,93 @@ function Header() {
           aria-label="Menü"
         >
           <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-            {open ? (
-              <path d="M6 6l12 12M6 18L18 6" />
-            ) : (
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            )}
+            <path d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
       </nav>
 
-      {open && (
-        <div className="md:hidden bg-white border-t shadow-xl">
-          <div className="px-4 py-4 space-y-1">
-            {NAV.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                onClick={() => setOpen(false)}
-                className="block py-3 text-[var(--color-text)] font-medium border-b border-gray-100"
-              >
-                {n.label}
-              </a>
-            ))}
-            <div className="flex gap-2 pt-3">
-              {LANGUAGES.map((l) => (
-                <button
-                  key={l.code}
-                  onClick={() => { switchLang(l.code); setOpen(false); }}
-                  className="text-2xl p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                  title={l.label}
-                >
-                  {l.flag}
-                </button>
-              ))}
-            </div>
+      {/* Backdrop */}
+      <div
+        className={`fixed inset-0 bg-black/60 z-40 md:hidden transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        onClick={() => setOpen(false)}
+      />
+
+      {/* Drawer */}
+      <div
+        className={`fixed top-0 right-0 h-full w-72 bg-black z-50 md:hidden transform transition-transform duration-300 ease-out ${open ? "translate-x-0" : "translate-x-full"}`}
+      >
+        <div className="flex items-center justify-between p-5 border-b border-white/10">
+          <span className="text-white font-bold text-lg">Menü</span>
+          <button onClick={() => setOpen(false)} className="p-2 text-white/70 hover:text-white">
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M6 6l12 12M6 18L18 6" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="p-5 flex flex-col gap-1">
+          {NAV.map((n) => (
             <a
-              href="tel:+905379288269"
-              className="block w-full text-center bg-[var(--color-primary)] text-white py-3 rounded-full font-semibold mt-3"
+              key={n.href}
+              href={n.href}
+              onClick={() => setOpen(false)}
+              className="block py-3 px-3 text-white/90 font-medium rounded-lg hover:bg-white/10 transition-colors"
             >
-              Hemen Ara
+              {n.label}
             </a>
+          ))}
+        </div>
+
+        <div className="px-5 py-4 border-t border-white/10">
+          <p className="text-white/40 text-xs uppercase tracking-wider mb-3">Dil</p>
+          <div className="flex gap-2">
+            {LANGUAGES.map((l) => (
+              <button
+                key={l.code}
+                onClick={() => { switchLang(l.code); setOpen(false); }}
+                className={`text-2xl p-2 rounded-lg transition-colors ${activeLang === l.code ? "bg-white/20" : "hover:bg-white/10"}`}
+                title={l.label}
+              >
+                {l.flag}
+              </button>
+            ))}
           </div>
         </div>
-      )}
+
+        <div className="px-5 py-4 border-t border-white/10">
+          <p className="text-white/40 text-xs uppercase tracking-wider mb-3">WhatsApp</p>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <a
+                href="https://wa.me/905379288269"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex items-center gap-3 bg-green-600 text-white px-4 py-3 rounded-xl text-sm font-semibold hover:bg-green-500 transition-colors"
+              >
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.37 0-4.567-.82-6.3-2.188l-.44-.362-3.091 1.036 1.036-3.091-.362-.44A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                WhatsApp 1
+              </a>
+              <a href="tel:+905379288269" className="p-3 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors" aria-label="WhatsApp 1 Ara">
+                <PhoneIcon />
+              </a>
+            </div>
+            <div className="flex items-center gap-2">
+              <a
+                href="https://wa.me/905070721617"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex items-center gap-3 bg-green-600 text-white px-4 py-3 rounded-xl text-sm font-semibold hover:bg-green-500 transition-colors"
+              >
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.37 0-4.567-.82-6.3-2.188l-.44-.362-3.091 1.036 1.036-3.091-.362-.44A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                WhatsApp 2
+              </a>
+              <a href="tel:+905070721617" className="p-3 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors" aria-label="WhatsApp 2 Ara">
+                <PhoneIcon />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
   );
 }
