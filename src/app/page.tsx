@@ -136,25 +136,13 @@ function Header() {
       return;
     }
 
-    // Try combo first (instant, no reload)
     const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
     if (combo) {
       combo.value = code;
       combo.dispatchEvent(new Event("change"));
-      // Verify it actually translated after a tick
-      setTimeout(() => {
-        if (document.documentElement.lang === "tr" || !document.querySelector(".goog-te-banner-frame")) {
-          // Combo didn't work, fallback to cookie + reload
-          const host = window.location.hostname;
-          document.cookie = `googtrans=/tr/${code}; path=/`;
-          document.cookie = `googtrans=/tr/${code}; path=/; domain=.${host}`;
-          window.location.reload();
-        }
-      }, 1500);
       return;
     }
-
-    // No combo available, cookie + reload
+    // Combo not ready yet, cookie + reload
     const host = window.location.hostname;
     document.cookie = `googtrans=/tr/${code}; path=/`;
     document.cookie = `googtrans=/tr/${code}; path=/; domain=.${host}`;
