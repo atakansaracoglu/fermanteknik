@@ -115,11 +115,19 @@ function Header() {
 
   function switchLang(code: string) {
     setLangOpen(false);
-    if (code === "tr") return;
-    window.open(
-      `https://translate.google.com/translate?sl=tr&tl=${code}&u=${encodeURIComponent(window.location.href)}`,
-      "_self"
-    );
+    if (code === "tr") {
+      // Remove translation
+      const iframe = document.querySelector(".goog-te-banner-frame") as HTMLIFrameElement;
+      if (iframe) {
+        const btn = iframe.contentDocument?.querySelector(".goog-close-link") as HTMLElement;
+        btn?.click();
+      }
+      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.reload();
+      return;
+    }
+    document.cookie = `googtrans=/tr/${code}; path=/;`;
+    window.location.reload();
   }
 
   const NAV = [
