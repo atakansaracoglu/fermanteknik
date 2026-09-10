@@ -106,6 +106,7 @@ function Header() {
   const [open, setOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeLang, setActiveLang] = useState("tr");
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 10);
@@ -113,8 +114,11 @@ function Header() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  const activeFlag = LANGUAGES.find((l) => l.code === activeLang)?.flag ?? "🇹🇷";
+
   function switchLang(code: string) {
     setLangOpen(false);
+    setActiveLang(code);
     const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
     if (!combo) return;
     if (code === "tr") {
@@ -166,7 +170,7 @@ function Header() {
               onClick={() => setLangOpen(!langOpen)}
               className="flex items-center gap-1.5 text-sm font-medium text-white/90 transition-colors"
             >
-              🇹🇷 <span className="text-xs">▼</span>
+              {activeFlag} <span className="text-xs">▼</span>
             </button>
             {langOpen && (
               <>
