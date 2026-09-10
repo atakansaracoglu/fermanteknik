@@ -108,6 +108,12 @@ function Header() {
   const [activeLang, setActiveLang] = useState("tr");
 
   useEffect(() => {
+    // Read language from googtrans cookie on mount
+    const match = document.cookie.match(/googtrans=\/tr\/(\w+)/);
+    if (match?.[1]) setActiveLang(match[1]);
+  }, []);
+
+  useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "";
     return () => { document.body.style.overflow = ""; };
@@ -118,22 +124,41 @@ function Header() {
   function switchLang(code: string) {
     setLangOpen(false);
     setActiveLang(code);
+
     if (code === "tr") {
-      // Google Translate cookie reset - the only reliable way to revert
-      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." + window.location.hostname;
-      const frame = document.querySelector(".goog-te-banner-frame") as HTMLIFrameElement;
-      if (frame) {
-        const btn = frame.contentDocument?.querySelector(".goog-close-link") as HTMLElement;
-        if (btn) { btn.click(); return; }
-      }
+      // Clear all googtrans cookies and reload
+      const exp = "expires=Thu, 01 Jan 1970 00:00:00 UTC";
+      const host = window.location.hostname;
+      document.cookie = `googtrans=; ${exp}; path=/`;
+      document.cookie = `googtrans=; ${exp}; path=/; domain=${host}`;
+      document.cookie = `googtrans=; ${exp}; path=/; domain=.${host}`;
       window.location.reload();
       return;
     }
-    const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
-    if (!combo) return;
-    combo.value = code;
-    combo.dispatchEvent(new Event("change"));
+
+    // Try combo first (instant, no reload)
+    const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
+    if (combo) {
+      combo.value = code;
+      combo.dispatchEvent(new Event("change"));
+      // Verify it actually translated after a tick
+      setTimeout(() => {
+        if (document.documentElement.lang === "tr" || !document.querySelector(".goog-te-banner-frame")) {
+          // Combo didn't work, fallback to cookie + reload
+          const host = window.location.hostname;
+          document.cookie = `googtrans=/tr/${code}; path=/`;
+          document.cookie = `googtrans=/tr/${code}; path=/; domain=.${host}`;
+          window.location.reload();
+        }
+      }, 1500);
+      return;
+    }
+
+    // No combo available, cookie + reload
+    const host = window.location.hostname;
+    document.cookie = `googtrans=/tr/${code}; path=/`;
+    document.cookie = `googtrans=/tr/${code}; path=/; domain=.${host}`;
+    window.location.reload();
   }
 
   const NAV = [

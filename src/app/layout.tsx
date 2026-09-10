@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -108,20 +109,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full flex flex-col">
         {children}
         <div id="google_translate_element" style={{ display: "none" }} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              function googleTranslateElementInit() {
-                new google.translate.TranslateElement({
-                  pageLanguage: 'tr',
-                  includedLanguages: 'en,ru,de,ar',
-                  autoDisplay: false
-                }, 'google_translate_element');
-              }
-            `,
-          }}
+        <Script id="google-translate-init" strategy="beforeInteractive">
+          {`function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+              pageLanguage: 'tr',
+              includedLanguages: 'en,ru,de,ar',
+              autoDisplay: false
+            }, 'google_translate_element');
+          }`}
+        </Script>
+        <Script
+          src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+          strategy="afterInteractive"
         />
-        <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async />
       </body>
     </html>
   );
