@@ -115,19 +115,15 @@ function Header() {
 
   function switchLang(code: string) {
     setLangOpen(false);
+    const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+    if (!combo) return;
     if (code === "tr") {
-      // Remove translation
-      const iframe = document.querySelector(".goog-te-banner-frame") as HTMLIFrameElement;
-      if (iframe) {
-        const btn = iframe.contentDocument?.querySelector(".goog-close-link") as HTMLElement;
-        btn?.click();
-      }
-      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      window.location.reload();
+      combo.value = "";
+      combo.dispatchEvent(new Event("change"));
       return;
     }
-    document.cookie = `googtrans=/tr/${code}; path=/;`;
-    window.location.reload();
+    combo.value = code;
+    combo.dispatchEvent(new Event("change"));
   }
 
   const NAV = [
