@@ -1,12 +1,15 @@
 export function GET() {
-  return Response.json({
-    resource: "https://fermanteknik.com",
-    authorization_servers: [],
-    bearer_methods_supported: [],
-    resource_documentation: "https://fermanteknik.com",
-    resource_signing_alg_values_supported: [],
-    resource_name: "Ferman Teknik",
-    resource_description:
-      "Antalya klima montajı ve beyaz eşya tamir servisi. Herkese açık, kimlik doğrulama gerektirmez.",
-  });
+  return Response.json(
+    {
+      resource: "https://fermanteknik.com",
+      authorization_servers: ["https://fermanteknik.com/.well-known/oauth-authorization-server"],
+      scopes_supported: [],
+      bearer_methods_supported: ["header"],
+      resource_documentation: "https://fermanteknik.com/auth.md",
+      resource_name: "Ferman Teknik",
+    },
+    {
+      headers: { "Access-Control-Allow-Origin": "*" },
+    },
+  );
 }

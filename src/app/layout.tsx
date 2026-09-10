@@ -70,41 +70,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <script
-          type="application/webmcp+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              name: "Ferman Teknik",
-              description: "Klima montaji, beyaz esya tamiri - Antalya",
-              tools: [
-                {
-                  name: "getContactInfo",
-                  description: "Get phone numbers and address",
-                  parameters: {},
-                  returns: {
-                    phone: ["+905379288269", "+905070721617"],
-                    address: "Yildiz Mah. 228 Sok. 2/A Muratpasa/Antalya",
-                  },
-                },
-                {
-                  name: "getServices",
-                  description: "List available repair and installation services",
-                  parameters: {},
-                  returns: {
-                    services: [
-                      "Klima Montaji",
-                      "Klima Bakimi",
-                      "Beyaz Esya Tamiri",
-                      "Camasir Makinesi Tamiri",
-                      "Bulasik Makinesi Tamiri",
-                      "Buzdolabi Tamiri",
-                    ],
-                  },
-                },
-              ],
-            }),
-          }}
-        />
       </head>
       <body className="min-h-full flex flex-col">
         {children}
@@ -117,6 +82,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               autoDisplay: false
             }, 'google_translate_element');
           }`}
+        </Script>
+        <Script id="webmcp-init" strategy="afterInteractive">
+          {`(function(){
+            if(!navigator.modelContext)return;
+            navigator.modelContext.provideContext({
+              name:"Ferman Teknik",
+              description:"Klima montaji, beyaz esya tamiri ve teknik servis - Antalya",
+              tools:[
+                {name:"getContactInfo",description:"Get business contact info",inputSchema:{type:"object",properties:{}},execute:function(){return{phone:["+905379288269","+905070721617"],address:"Yildiz Mah. 228 Sok. 2/A Muratpasa/Antalya",whatsapp:"https://wa.me/905379288269"}}},
+                {name:"getServices",description:"List available repair and installation services",inputSchema:{type:"object",properties:{}},execute:function(){return{services:["Klima Montaji","Klima Bakimi","Beyaz Esya Tamiri","Camasir Makinesi Tamiri","Bulasik Makinesi Tamiri","Buzdolabi Tamiri"]}}}
+              ]
+            });
+          })();`}
         </Script>
         <Script
           src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"

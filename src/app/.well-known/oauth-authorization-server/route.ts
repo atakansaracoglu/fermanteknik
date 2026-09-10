@@ -1,15 +1,21 @@
 export function GET() {
-  // No authentication required - public service site
   return Response.json(
     {
       issuer: "https://fermanteknik.com",
-      authorization_endpoint: null,
-      token_endpoint: null,
+      authorization_endpoint: "https://fermanteknik.com",
+      token_endpoint: "https://fermanteknik.com",
       response_types_supported: [],
       grant_types_supported: [],
       scopes_supported: [],
-      note: "This site does not require authentication. All content is publicly accessible.",
+      agent_auth: {
+        register_uri: null,
+        supported_identity_types: [],
+        supported_credential_types: [],
+        note: "No authentication required. All content is publicly accessible.",
+      },
     },
-    { status: 200 },
+    {
+      headers: { "Access-Control-Allow-Origin": "*" },
+    },
   );
 }

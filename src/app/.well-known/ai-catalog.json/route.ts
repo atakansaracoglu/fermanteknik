@@ -1,36 +1,60 @@
+const DOMAIN = "fermanteknik.com";
+
 export function GET() {
   const ard = {
-    schema_version: "1.0",
-    name: "Ferman Teknik",
-    description: "Klima montaji, beyaz esya tamiri ve teknik servis - Antalya",
-    url: "https://fermanteknik.com",
-    logo: "https://fermanteknik.com/favicon.ico",
-    contact: {
-      phone: ["+905379288269", "+905070721617"],
-      address: "Yildiz Mah. 228 Sok. 2/A Muratpasa/Antalya",
-      area_served: "Antalya",
+    specVersion: "1.0.0",
+    host: {
+      name: "Ferman Teknik",
+      url: `https://${DOMAIN}`,
+      description: "Klima montajı, beyaz eşya tamiri ve teknik servis - Antalya",
+      contact: {
+        phone: ["+905379288269", "+905070721617"],
+        address: "Yıldız Mah. 228 Sok. 2/A Muratpaşa/Antalya",
+      },
     },
-    services: [
-      { name: "Klima Montaji", description: "Split klima montaj ve kurulum" },
-      { name: "Klima Bakimi", description: "Klima bakim ve temizlik" },
-      { name: "Beyaz Esya Tamiri", description: "Tum marka beyaz esya tamir" },
-      { name: "Camasir Makinesi Tamiri" },
-      { name: "Bulasik Makinesi Tamiri" },
-      { name: "Buzdolabi Tamiri" },
+    entries: [
+      {
+        id: `urn:air:${DOMAIN}:services:info`,
+        displayName: "Ferman Teknik Hizmetler",
+        description: "Klima ve beyaz eşya servis hizmetleri bilgisi",
+        type: "application/json",
+        url: `https://${DOMAIN}/.well-known/agent-skills/index.json`,
+        representativeQueries: [
+          "Ferman Teknik hangi hizmetleri veriyor?",
+          "Antalya'da klima montajı yapan servis",
+          "Beyaz eşya tamiri Antalya",
+          "Ferman Teknik iletişim bilgileri",
+        ],
+      },
+      {
+        id: `urn:air:${DOMAIN}:mcp:server`,
+        displayName: "Ferman Teknik MCP Server Card",
+        description: "MCP server discovery metadata",
+        type: "application/json",
+        url: `https://${DOMAIN}/.well-known/mcp/server-card.json`,
+        representativeQueries: [
+          "Ferman Teknik MCP server bilgileri",
+          "Ferman Teknik API erişimi",
+        ],
+      },
+      {
+        id: `urn:air:${DOMAIN}:api:catalog`,
+        displayName: "Ferman Teknik API Catalog",
+        description: "RFC 9727 API catalog",
+        type: "application/linkset+json",
+        url: `https://${DOMAIN}/.well-known/api-catalog`,
+        representativeQueries: [
+          "Ferman Teknik API listesi",
+          "Hangi endpointler mevcut?",
+        ],
+      },
     ],
-    brands: [
-      "Mitsubishi", "Daikin", "Samsung", "LG", "Bosch",
-      "Siemens", "Arcelik", "Beko", "Vestel",
-    ],
-    language: "tr",
-    endpoints: [
-      { path: "/", description: "Ana sayfa" },
-      { path: "/sitemap.xml", description: "XML Sitemap" },
-      { path: "/.well-known/api-catalog", description: "RFC 9727 API Catalog" },
-      { path: "/.well-known/agent-skills/index.json", description: "Agent Skills" },
-    ],
-    supports_markdown: true,
   };
 
-  return Response.json(ard);
+  return Response.json(ard, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+    },
+  });
 }
