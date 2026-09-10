@@ -3,9 +3,9 @@ import { NextRequest } from "next/server";
 export function GET(req: NextRequest) {
   const origin = `https://${req.headers.get("host") || "fermanteknik.com"}`;
 
-  const body = `# Ferman Teknik auth.md
+  const body = `# auth.md
 
-> This file follows the [auth.md](https://github.com/workos/auth.md) specification.
+> Ferman Teknik — follows the [auth.md](https://github.com/workos/auth.md) specification.
 
 ## Overview
 
