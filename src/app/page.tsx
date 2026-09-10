@@ -118,13 +118,20 @@ function Header() {
   function switchLang(code: string) {
     setLangOpen(false);
     setActiveLang(code);
-    const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
-    if (!combo) return;
     if (code === "tr") {
-      combo.value = "";
-      combo.dispatchEvent(new Event("change"));
+      // Google Translate cookie reset - the only reliable way to revert
+      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." + window.location.hostname;
+      const frame = document.querySelector(".goog-te-banner-frame") as HTMLIFrameElement;
+      if (frame) {
+        const btn = frame.contentDocument?.querySelector(".goog-close-link") as HTMLElement;
+        if (btn) { btn.click(); return; }
+      }
+      window.location.reload();
       return;
     }
+    const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+    if (!combo) return;
     combo.value = code;
     combo.dispatchEvent(new Event("change"));
   }
