@@ -12,9 +12,10 @@ export function GET(req: NextRequest) {
       grant_types_supported: [],
       scopes_supported: [],
       agent_auth: {
+        skill: "public",
         register_uri: null,
-        supported_identity_types: [],
-        supported_credential_types: [],
+        supported_identity_types: ["anonymous"],
+        supported_credential_types: ["none"],
         note: "No authentication required. All content is publicly accessible.",
       },
     },

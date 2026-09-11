@@ -6,7 +6,7 @@ export function GET(req: NextRequest) {
   return Response.json(
     {
       resource: origin,
-      authorization_servers: [`${origin}/.well-known/oauth-authorization-server`],
+      authorization_servers: [origin],
       scopes_supported: [],
       bearer_methods_supported: ["header"],
       resource_documentation: `${origin}/auth.md`,

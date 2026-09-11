@@ -64,6 +64,21 @@ const BRANDS = [
   { name: "Siemens", logo: "/images/brands/siemens.png" },
   { name: "Toshiba", logo: "/images/brands/toshiba.png" },
   { name: "Vestel", logo: "/images/brands/vestel.png" },
+  { name: "Alarko", logo: "/images/brands/alarko.png" },
+  { name: "Candy", logo: "/images/brands/candy.png" },
+  { name: "Electrolux", logo: "/images/brands/electrolux.png" },
+  { name: "Ferroli", logo: "/images/brands/ferroli.png" },
+  { name: "Gorenje", logo: "/images/brands/gorenje.png" },
+  { name: "Hitachi", logo: "/images/brands/hitachi.png" },
+  { name: "Indesit", logo: "/images/brands/indesit.png" },
+  { name: "Panasonic", logo: "/images/brands/panasonic.png" },
+  { name: "Sharp", logo: "/images/brands/sharp.png" },
+  { name: "Silverline", logo: "/images/brands/silverline.png" },
+  { name: "Teka", logo: "/images/brands/teka.png" },
+  { name: "Vaillant", logo: "/images/brands/vaillant.png" },
+  { name: "Viessmann", logo: "/images/brands/viessmann.png" },
+  { name: "Whirlpool", logo: "/images/brands/whirlpool.png" },
+  { name: "Zanussi", logo: "/images/brands/zanussi.png" },
 ];
 
 const GALLERY_IMAGES = [
@@ -504,12 +519,38 @@ function BrandsCarousel() {
   );
 }
 
+function Lightbox({ src, type, alt, onClose }: { src: string; type: "image" | "video"; alt?: string; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm" onClick={onClose}>
+      <button onClick={onClose} className="absolute top-4 right-4 text-white/80 hover:text-white z-10">
+        <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div className="max-w-[90vw] max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+        {type === "image" ? (
+          <img src={src} alt={alt || ""} className="max-w-full max-h-[90vh] object-contain rounded-lg" />
+        ) : (
+          <video src={src} controls autoPlay playsInline className="max-w-full max-h-[90vh] rounded-lg" />
+        )}
+      </div>
+    </div>
+  );
+}
+
 function Gallery() {
   const [activeVideo, setActiveVideo] = useState<number | null>(null);
+  const [lightbox, setLightbox] = useState<{ src: string; type: "image" | "video"; alt?: string } | null>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   return (
     <section id="galeri" className="py-20 sm:py-28">
+      {lightbox && <Lightbox {...lightbox} onClose={() => setLightbox(null)} />}
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-sm font-semibold text-[var(--color-accent)] uppercase tracking-wider">
@@ -525,7 +566,7 @@ function Gallery() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {GALLERY_IMAGES.map((img) => (
-            <div key={img.src} className="relative aspect-[3/4] rounded-2xl overflow-hidden group">
+            <div key={img.src} className="relative aspect-[3/4] rounded-2xl overflow-hidden group cursor-pointer" onClick={() => setLightbox({ src: img.src, type: "image", alt: img.alt })}>
               <Image
                 src={img.src}
                 alt={img.alt}
@@ -554,27 +595,17 @@ function Gallery() {
                 loop
                 className="w-full h-full object-cover"
                 onClick={() => {
-                  const v = videoRefs.current[i];
-                  if (!v) return;
-                  if (activeVideo === i) {
-                    v.pause();
-                    setActiveVideo(null);
-                  } else {
-                    videoRefs.current.forEach((ref) => ref?.pause());
-                    v.play();
-                    setActiveVideo(i);
-                  }
+                  videoRefs.current.forEach((ref) => ref?.pause());
+                  setActiveVideo(null);
+                  setLightbox({ src: vid.src, type: "video" });
                 }}
               />
               {activeVideo !== i && (
                 <div
                   className="absolute inset-0 flex items-center justify-center bg-black/20"
                   onClick={() => {
-                    const v = videoRefs.current[i];
-                    if (!v) return;
                     videoRefs.current.forEach((ref) => ref?.pause());
-                    v.play();
-                    setActiveVideo(i);
+                    setLightbox({ src: vid.src, type: "video" });
                   }}
                 >
                   <div className="w-14 h-14 bg-white/90 rounded-full flex items-center justify-center shadow-lg">
@@ -614,7 +645,7 @@ function About() {
                 <div className="text-sm text-white/50 mt-1">Mutlu Müşteri</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-[var(--color-accent)]">26+</div>
+                <div className="text-3xl font-bold text-[var(--color-accent)]">40+</div>
                 <div className="text-sm text-white/50 mt-1">Marka Desteği</div>
               </div>
               <div>
@@ -632,6 +663,52 @@ function About() {
               sizes="(max-width:1024px) 100vw, 50vw"
             />
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const DISTRICTS = [
+  { name: "Muratpaşa", desc: "Merkez, Lara, Kundu bölgelerinde klima montajı ve beyaz eşya tamiri" },
+  { name: "Kepez", desc: "Kepez ve çevresinde split klima montajı, kombi bakımı" },
+  { name: "Konyaaltı", desc: "Konyaaltı sahil ve iç bölgelerde klima servisi" },
+  { name: "Aksu", desc: "Aksu ve Kundu'da klima montajı ve teknik servis" },
+  { name: "Döşemealtı", desc: "Döşemealtı ilçesinde klima ve beyaz eşya servisi" },
+  { name: "Serik", desc: "Serik ve Belek bölgesinde klima montaj ve bakım" },
+  { name: "Manavgat", desc: "Manavgat ve Side'de klima servisi ve beyaz eşya tamiri" },
+  { name: "Alanya", desc: "Alanya merkezde klima montajı ve teknik servis" },
+  { name: "Kemer", desc: "Kemer ve çevresinde klima bakımı ve montaj" },
+  { name: "Kaş", desc: "Kaş ve Kalkan'da klima ve beyaz eşya servisi" },
+  { name: "Kumluca", desc: "Kumluca ilçesinde klima montajı ve tamir" },
+  { name: "Finike", desc: "Finike ve çevresinde teknik servis hizmeti" },
+];
+
+function ServiceAreas() {
+  return (
+    <section id="bolgeler" className="py-20 sm:py-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-sm font-semibold text-[var(--color-accent)] uppercase tracking-wider">
+            Hizmet Bölgelerimiz
+          </span>
+          <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-[var(--color-primary)]">
+            Antalya&apos;nın Tüm İlçelerinde Teknik Servis
+          </h2>
+          <p className="mt-4 text-[var(--color-text-muted)]">
+            Antalya genelinde klima montajı, klima bakımı, beyaz eşya tamiri ve kombi servisi hizmeti veriyoruz.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {DISTRICTS.map((d) => (
+            <div key={d.name} className="p-5 bg-white border border-gray-100 rounded-xl hover:shadow-lg hover:border-[var(--color-primary)]/20 transition-all">
+              <div className="flex items-center gap-2 mb-2">
+                <svg width="16" height="16" fill="var(--color-primary)" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+                <h3 className="font-bold text-[var(--color-primary)]">{d.name}</h3>
+              </div>
+              <p className="text-sm text-[var(--color-text-muted)]">{d.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -752,16 +829,18 @@ function Footer() {
           <div>
             <Image src="/images/logo-header.jpg" alt="Ferman Teknik" width={180} height={54} className="h-12 w-auto object-contain" />
             <p className="mt-4 text-sm leading-relaxed">
-              Antalya&apos;da klima ve beyaz eşya alanında güvenilir teknik servis hizmeti.
+              Antalya&apos;da klima montajı, klima bakımı, beyaz eşya tamiri ve kombi servisi. Muratpaşa, Kepez, Konyaaltı, Aksu, Döşemealtı ve tüm ilçelerde 7/24 teknik servis.
             </p>
           </div>
           <div>
             <h4 className="font-semibold text-white mb-4">Hizmetler</h4>
             <ul className="space-y-2 text-sm">
               <li>Klima Montajı &amp; Bakımı</li>
+              <li>Klima Gaz Dolumu</li>
               <li>Çamaşır Makinesi Tamiri</li>
               <li>Bulaşık Makinesi Servisi</li>
               <li>Buzdolabı Tamiri</li>
+              <li>Kombi Bakımı &amp; Tamiri</li>
               <li>Fırın &amp; Ankastre Servisi</li>
             </ul>
           </div>
@@ -795,6 +874,7 @@ export default function Home() {
         <BrandsCarousel />
         <Gallery />
         <About />
+        <ServiceAreas />
         <Contact />
       </main>
       <Footer />
