@@ -325,33 +325,35 @@ function ContactButton({ phone, waPhone, label }: { phone: string; waPhone: stri
   const CallIcon = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>;
 
   return (
-    <div className="relative w-full sm:w-auto">
-      {/* Collapsed button */}
+    <div className="flex gap-2 w-full sm:w-auto overflow-hidden">
+      {/* Collapsed label — shrinks to 0 when expanded */}
       <button
         onClick={() => setExpanded(true)}
-        className={`inline-flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-black px-6 py-4 rounded-full text-base font-semibold whitespace-nowrap transition-all duration-300 w-full sm:w-auto ${expanded ? "opacity-0 scale-95 pointer-events-none" : "opacity-100 scale-100"}`}
+        style={{ maxWidth: expanded ? 0 : 300, opacity: expanded ? 0 : 1, padding: expanded ? "1rem 0" : undefined }}
+        className="inline-flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-black px-6 py-4 rounded-full text-base font-semibold whitespace-nowrap transition-all duration-300 overflow-hidden"
       >
         <CallIcon />
         <WaIcon />
         {label}
       </button>
-      {/* Expanded split */}
-      <div className={`absolute inset-0 flex gap-2 transition-all duration-300 ${expanded ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}>
-        <a
-          href={`tel:+9${phone}`}
-          className="flex-1 inline-flex items-center justify-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 text-white py-4 rounded-full text-sm font-semibold transition-all hover:scale-105"
-        >
-          <CallIcon /> Ara
-        </a>
-        <a
-          href={`https://wa.me/${waPhone}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex-1 inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-4 rounded-full text-sm font-semibold transition-all hover:scale-105"
-        >
-          <WaIcon /> WhatsApp
-        </a>
-      </div>
+      {/* Ara */}
+      <a
+        href={`tel:+9${phone}`}
+        style={{ maxWidth: expanded ? 200 : 0, opacity: expanded ? 1 : 0, padding: expanded ? "1rem 1.25rem" : "1rem 0" }}
+        className="inline-flex items-center justify-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 text-white rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 overflow-hidden hover:scale-105"
+      >
+        <CallIcon /> Ara
+      </a>
+      {/* WhatsApp */}
+      <a
+        href={`https://wa.me/${waPhone}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ maxWidth: expanded ? 200 : 0, opacity: expanded ? 1 : 0, padding: expanded ? "1rem 1.25rem" : "1rem 0" }}
+        className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 overflow-hidden hover:scale-105"
+      >
+        <WaIcon /> WhatsApp
+      </a>
     </div>
   );
 }
