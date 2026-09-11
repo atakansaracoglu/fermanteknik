@@ -13,7 +13,7 @@ export function GET(req: NextRequest) {
       scopes_supported: ["read"],
       agent_auth: {
         skill: "public",
-        register_uri: null,
+        register_uri: origin + "/auth.md",
         supported_identity_types: ["anonymous"],
         supported_credential_types: ["none"],
         note: "No authentication required. All content is publicly accessible.",
