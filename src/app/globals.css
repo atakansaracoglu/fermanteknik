@@ -27,6 +27,9 @@ body {
 .goog-te-banner-frame, .skiptranslate { display: none !important; }
 body { top: 0 !important; }
 
+/* Prevent horizontal overflow from translated text */
+main, section { overflow-x: clip; }
+
 /* Brand carousel */
 @keyframes scroll-left {
   0% { transform: translateX(0); }
