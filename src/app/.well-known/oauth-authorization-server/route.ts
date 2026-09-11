@@ -10,7 +10,7 @@ export function GET(req: NextRequest) {
       token_endpoint: origin,
       response_types_supported: [],
       grant_types_supported: [],
-      scopes_supported: [],
+      scopes_supported: ["read"],
       agent_auth: {
         skill: "public",
         register_uri: null,

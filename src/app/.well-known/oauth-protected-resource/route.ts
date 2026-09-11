@@ -7,7 +7,7 @@ export function GET(req: NextRequest) {
     {
       resource: origin,
       authorization_servers: [origin],
-      scopes_supported: [],
+      scopes_supported: ["read"],
       bearer_methods_supported: ["header"],
       resource_documentation: `${origin}/auth.md`,
       resource_name: "Ferman Teknik",
