@@ -27,6 +27,7 @@ export function middleware(request: NextRequest) {
     accept.includes("text/markdown") &&
     !request.nextUrl.pathname.startsWith("/.well-known") &&
     !request.nextUrl.pathname.startsWith("/api") &&
+    request.nextUrl.pathname !== "/auth.md" &&
     !request.nextUrl.pathname.endsWith(".xml") &&
     !request.nextUrl.pathname.endsWith(".txt")
   ) {
