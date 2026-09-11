@@ -787,7 +787,7 @@ function Contact() {
 
         <div className="mt-12 max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-lg border border-gray-100">
           <iframe
-            src="https://www.google.com/maps?q=Ferman+Teknik+Antalya&z=16&output=embed"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3196!2d30.687579!3d36.893756!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c391fe868b3e0f%3A0xf3a7a4f7bbbb6d96!2sFerman%20Teknik!5e0!3m2!1str!2str"
             width="100%"
             height="400"
             style={{ border: 0 }}
