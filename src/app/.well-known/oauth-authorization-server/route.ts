@@ -16,6 +16,11 @@ export function GET(req: NextRequest) {
         register_uri: origin + "/auth.md",
         supported_identity_types: ["anonymous"],
         supported_credential_types: ["none"],
+        claim_uri: origin + "/auth.md",
+        anonymous: {
+          credential_types_supported: ["none"],
+          claim_uri: origin + "/auth.md",
+        },
         note: "No authentication required. All content is publicly accessible.",
       },
     },
