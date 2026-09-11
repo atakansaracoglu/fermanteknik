@@ -12,7 +12,7 @@ export function GET(req: NextRequest) {
       grant_types_supported: [],
       scopes_supported: ["read"],
       agent_auth: {
-        skill: "public",
+        skill: origin + "/auth.md",
         register_uri: origin + "/auth.md",
         supported_identity_types: ["anonymous"],
         supported_credential_types: ["none"],
