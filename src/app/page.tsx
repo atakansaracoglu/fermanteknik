@@ -784,6 +784,19 @@ function Contact() {
             <p className="mt-2 text-[var(--color-text-muted)]">Yıldız Mah. 228 Sok. 2/A Muratpaşa/Antalya</p>
           </div>
         </div>
+
+        <div className="mt-12 max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+          <iframe
+            src="https://www.google.com/maps?q=Ferman+Teknik+Antalya&z=16&output=embed"
+            width="100%"
+            height="400"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Ferman Teknik Konum"
+          />
+        </div>
       </div>
     </section>
   );
