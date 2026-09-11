@@ -21,8 +21,8 @@ export function GET(req: NextRequest) {
 
 This site does not use OAuth or OIDC. All endpoints are publicly accessible.
 
-- **OAuth Protected Resource Metadata**: \`${origin}/.well-known/oauth-protected-resource\`
-- **OAuth Authorization Server Metadata**: \`${origin}/.well-known/oauth-authorization-server\`
+- **OAuth Protected Resource Metadata**: ${origin}/.well-known/oauth-protected-resource
+- **OAuth Authorization Server Metadata**: ${origin}/.well-known/oauth-authorization-server
 
 ## Endpoints
 
