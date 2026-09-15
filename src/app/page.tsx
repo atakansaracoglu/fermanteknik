@@ -743,7 +743,7 @@ function Contact() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
           <a
             href="tel:+905379288269"
             className="flex flex-col items-center text-center p-8 bg-white border border-gray-100 rounded-2xl hover:shadow-xl transition-all group"
@@ -772,6 +772,19 @@ function Contact() {
             <h3 className="font-bold text-lg text-[var(--color-primary)]">Rojhat Kurt</h3>
             <p className="mt-2 text-[var(--color-text-muted)]">0507 072 16 17</p>
           </a>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto mt-6">
+          <div className="flex flex-col items-center text-center p-8 bg-white border border-gray-100 rounded-2xl">
+            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-4">
+              <svg width="28" height="28" fill="none" stroke="var(--color-primary)" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </div>
+            <h3 className="font-bold text-lg text-[var(--color-primary)]">Adres 1</h3>
+            <p className="mt-2 text-[var(--color-text-muted)]">Yıldız Mah. 228 Sok. 2/A Muratpaşa/Antalya</p>
+          </div>
 
           <div className="flex flex-col items-center text-center p-8 bg-white border border-gray-100 rounded-2xl">
             <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-4">
@@ -780,8 +793,8 @@ function Contact() {
                 <circle cx="12" cy="10" r="3" />
               </svg>
             </div>
-            <h3 className="font-bold text-lg text-[var(--color-primary)]">Adres</h3>
-            <p className="mt-2 text-[var(--color-text-muted)]">Yıldız Mah. 228 Sok. 2/A Muratpaşa/Antalya</p>
+            <h3 className="font-bold text-lg text-[var(--color-primary)]">Adres 2</h3>
+            <p className="mt-2 text-[var(--color-text-muted)]">Altınkum Mh. 428 Sk. Kınıklı Apt. No:6, 07070 Konyaaltı/Antalya</p>
           </div>
         </div>
 
